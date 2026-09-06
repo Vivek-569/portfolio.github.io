@@ -349,6 +349,45 @@
   .timeline-header-row{ display: flex; align-items: center; gap: 14px; margin-bottom: 4px; }
   .cert-name{ font-weight: 600; margin-bottom: 3px; }
   .cert-meta{ color: var(--muted); font-size: 0.85rem; }
+  .cert-view{
+    display: inline-block;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan);
+    cursor: pointer;
+    border-bottom: 1px solid rgba(6,182,212,0.4);
+  }
+  .cert-view:hover{ color: var(--pink); border-color: var(--pink); }
+
+  /* ---------- cert lightbox modal ---------- */
+  .cert-modal{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6,8,16,0.88);
+    backdrop-filter: blur(6px);
+    z-index: 50;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+  }
+  .cert-modal.open{ display: flex; }
+  .cert-modal img{
+    max-width: 92vw;
+    max-height: 88vh;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .cert-modal-close{
+    position: absolute;
+    top: 22px; right: 30px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .cert-modal-close:hover{ color: var(--pink); }
 
   /* ---------- resume / contact ---------- */
   .resume-box{
@@ -572,6 +611,7 @@
         <div>
           <div class="cert-name">Microsoft Azure AI Certification</div>
           <div class="cert-meta">Microsoft · March 2025</div>
+          <a class="cert-view" href="https://learn.microsoft.com/en-gb/users/vivekagrawal-2706/credentials" target="_blank" rel="noopener">Click to view →</a>
         </div>
       </div>
       <div class="card cert-card">
@@ -579,6 +619,7 @@
         <div>
           <div class="cert-name">Certified Apache Hadoop Developer</div>
           <div class="cert-meta">IBM · January 2024</div>
+          <span class="cert-view" onclick="openCertModal('hadoop-cert.png')">Click to view →</span>
         </div>
       </div>
       <div class="card cert-card">
@@ -586,6 +627,7 @@
         <div>
           <div class="cert-name">Artificial Intelligence Specialization</div>
           <div class="cert-meta">IBM &amp; Coursera · September 2025</div>
+          <span class="cert-view" onclick="openCertModal('ibm-ai-cert.png')">Click to view →</span>
         </div>
       </div>
       <div class="card cert-card">
@@ -593,11 +635,17 @@
         <div>
           <div class="cert-name">AI Essentials Specialization</div>
           <div class="cert-meta">Google &amp; Coursera · October 2025</div>
+          <span class="cert-view" onclick="openCertModal('google-ai-cert.png')">Click to view →</span>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<div class="cert-modal" id="certModal" onclick="closeCertModal(event)">
+  <span class="cert-modal-close" onclick="closeCertModal(event)">&times;</span>
+  <img id="certModalImg" src="" alt="Certificate">
+</div>
 
 <section id="resume">
   <div class="wrap reveal">
@@ -632,6 +680,16 @@
     });
   }, { threshold: 0.12 });
   revealEls.forEach(el => observer.observe(el));
+
+  function openCertModal(src){
+    document.getElementById('certModalImg').src = src;
+    document.getElementById('certModal').classList.add('open');
+  }
+  function closeCertModal(e){
+    if(e.target.id === 'certModal' || e.target.classList.contains('cert-modal-close')){
+      document.getElementById('certModal').classList.remove('open');
+    }
+  }
 </script>
 
 </body>
